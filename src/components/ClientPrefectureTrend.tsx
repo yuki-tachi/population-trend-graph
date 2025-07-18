@@ -1,0 +1,65 @@
+"use client";
+import { useState } from "react";
+import PrefectureCheckboxes from "@/components/PrefectureCheckboxes";
+import LineGraph from "@/app/LineGraph";
+import { Prefecture, TrendChartData } from "@/lib/GetStatsData";
+
+type Props = {
+  prefectures: Prefecture[];
+  trend: TrendChartData[];
+};
+
+export default function ClientPrefectureTrend({ prefectures, trend }: Props) {
+  const [checkedNames, setCheckedNames] = useState<string[]>([]);
+
+  // チェックボックスの変更時に選択コード配列を更新
+  //   const handleChange = (codes: string[]) => setCheckedCodes(codes);
+  const handleChange = (names: string[]) => {
+    setCheckedNames(names);
+  };
+
+  // checkedNamesに存在する都道府県名だけでtrendデータを整形
+  const filteredTrend = trend.map((item) => {
+    const filtered: { year: number } & { [name: string]: number } = {
+      year: item.year,
+    };
+    // checkedNamesに含まれる都道府県名のデータだけを抽出
+    checkedNames.forEach((name) => {
+      if (item[name] !== undefined) {
+        filtered[name] = item[name];
+      }
+    });
+
+    return filtered;
+  });
+
+  console.log("Filtered Trend Data:", filteredTrend);
+  return (
+    <>
+      <div className="bg-white rounded-lg shadow-sm p-3 m-3">
+        <h3>
+          <b>都道府県</b>
+        </h3>
+        <PrefectureCheckboxes
+          prefectures={prefectures}
+          checkedNames={checkedNames}
+          onChange={handleChange}
+        />
+      </div>
+      <div
+        className="bg-white rounded-lg shadow-sm p-3 m-3"
+        style={{ height: 600 }}
+      >
+        <LineGraph chartData={filteredTrend} />
+        {/* <ResponsiveContainer
+          width="100%"
+          height="100%"
+          //   minHeight={250}
+          //   minWidth={500}
+        >
+          <LineGraph chartData={filteredTrend} />
+        </ResponsiveContainer> */}
+      </div>
+    </>
+  );
+}
