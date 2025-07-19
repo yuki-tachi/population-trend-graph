@@ -6,9 +6,9 @@ type CommonCheckboxProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 function CommonCheckbox({ label, ...inputProps }: CommonCheckboxProps) {
   return (
-    <label className="inline-block cursor-pointer select-none mr-4 mb-2 align-middle">
+    <label className="inline-flex items-center cursor-pointer select-none mr-4 mb-2">
       <input type="checkbox" {...inputProps} />
-      <span className="align-middle">{label}</span>
+      <span className="ml-1">{label}</span>
     </label>
   );
 }
