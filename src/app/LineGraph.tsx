@@ -30,7 +30,7 @@ export default function LineGraph({
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
         data={chartData}
-        margin={{ top: 40, right: 40, left: 40, bottom: 40 }}
+        margin={{ top: 40, right: 40, left: 30, bottom: 40 }}
       >
         <XAxis dataKey="year" unit="年"></XAxis>
         <YAxis

@@ -13,10 +13,7 @@ export type Prefecture = {
 };
 
 export type TrendChartData = {
-  // code: string;
-  // prefectureName: string;
   year: number;
-  // population: number;
   [prefCode: string]:number;
 };
 
@@ -88,6 +85,7 @@ export async function GetTrendChartData(): Promise<{trend: TrendChartData[], pre
   const records: ValueRecord[] = data.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE;
   // TrendChartData型に変換
   const yearMap = new Map<number, TrendChartData>();
+  
   records
   .filter(rec => rec["@tab"] === "10040")
   .forEach(rec => {
@@ -103,18 +101,6 @@ export async function GetTrendChartData(): Promise<{trend: TrendChartData[], pre
     });
 
     const ret = Array.from(yearMap.values()).sort((a, b) => a.year - b.year);
-
-  // .map(rec => {
-  //   const ret:TrendChartData = {
-  //   // code: rec['@area'],
-  //   // prefectureName: prefectureMap.get(rec['@area']) ?? '',
-  //   year: Number(rec['@time'].slice(0, 4)),
-  //   population: Number(rec['$'])
-  //   };
-
-    // ret[rec['@area']] = Number(rec['$'])
-  //   return ret;
-  // }).sort((a, b) => a.year - b.year);
 
   return {trend:ret, prefectures};
 }
