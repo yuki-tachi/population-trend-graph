@@ -1,12 +1,3 @@
-async function GetTrendData() {
-const resource = "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=87e00ed9cf1fc7290a80ef098e47a93d2a128eb5&lang=J&statsDataId=0003411597"
-  const res = await fetch(resource);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch stats data:${res.status}`);
-  }
-  return res.json();
-}
-
 export type Prefecture = {
   code: string;
   name: string;
@@ -26,27 +17,14 @@ interface ClassObj {
   }>;
 }
 
-export async function GetPrefectures(): Promise<Prefecture[]> {
-  const data = await GetTrendData();
-  const classObjs: ClassObj[] = data.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ;
-  const areaObj = classObjs.find((obj) => obj['@id'] === 'area');
-  if (!areaObj) throw new Error('都道府県情報が見つかりません');
-  return areaObj.CLASS.map((c) => ({
-    code: c['@code'],
-    name: c['@name']
-  }));
+async function GetStatsData() {
+const resource = "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=87e00ed9cf1fc7290a80ef098e47a93d2a128eb5&lang=J&statsDataId=0003411597"
+  const res = await fetch(resource, { cache: "force-cache" });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch stats data:${res.status}`);
+  }
+  return res.json();
 }
-
-// export type PopulationData = {
-//   year: string;
-//   value: number;
-// };
-
-// interface PopulationRecord {
-//   '@area': string;
-//   '@time': string;
-//   '@value': string;
-// }
 
 interface ValueRecord {
   '$': string;
@@ -56,21 +34,8 @@ interface ValueRecord {
   '@unit': string;
 }
 
-
-// export async function GetPopulationTrend(prefCode: string): Promise<PopulationData[]> {
-//   const data = await GetStatsData();
-//   const records: ValueRecord[] = data.GET_STATS_DATA.STATISTICAL_DATA.DATA_INF.VALUE;
-//   // 指定都道府県コードのデータのみ抽出
-//   return records
-//     .filter((rec) => rec['@area'] === prefCode)
-//     .map((rec) => ({
-//       year: rec['@time'],
-//       value: Number(rec['@value'])
-//     }));
-// }
-
 export async function GetTrendChartData(): Promise<{trend: TrendChartData[], prefectures: Prefecture[]}  > {
-  const data = await GetTrendData();
+  const data = await GetStatsData();
   // 都道府県リスト取得
   const classObjs: ClassObj[] = data.GET_STATS_DATA.STATISTICAL_DATA.CLASS_INF.CLASS_OBJ;
   const areaObj = classObjs.find((obj) => obj['@id'] === 'area');

@@ -30,14 +30,18 @@ export default function LineGraph({
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
         data={chartData}
-        margin={{ top: 40, right: 40, left: 30, bottom: 40 }}
+        margin={{ top: 5, right: 10, left: 5, bottom: 0 }}
       >
         <XAxis dataKey="year" unit="年"></XAxis>
         <YAxis
           tickFormatter={(value) => value.toLocaleString()}
           unit="人"
+          width="auto"
         ></YAxis>
-        <Tooltip formatter={(value: number) => `${value.toLocaleString()}人`} />
+        <Tooltip
+          labelFormatter={(label) => `${label}年`}
+          formatter={(value: number) => `${value.toLocaleString()}人`}
+        />
         <Legend />
 
         {prefectureNames.map((name, idx) => (

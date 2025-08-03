@@ -45,7 +45,17 @@ export default function ClientPrefectureTrend({ prefectures, trend }: Props) {
             checkedNames={checkedNames}
             onChange={handleChange}
           />
+          <div className="flex justify-center">
+            <button
+              className="px-2 py-1 bg-blue-200 rounded hover:bg-blue-300"
+              onClick={() => setCheckedNames([])}
+              type="button"
+            >
+              クリア
+            </button>
+          </div>
         </div>
+
         <div
           className="flex-1 bg-white rounded-lg shadow-sm p-3 m-3"
           style={{ height: 600 }}
