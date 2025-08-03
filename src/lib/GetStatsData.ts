@@ -52,7 +52,7 @@ export async function GetTrendChartData(): Promise<{trend: TrendChartData[], pre
   const yearMap = new Map<number, TrendChartData>();
   
   records
-  .filter(rec => rec["@tab"] === "10040")
+  .filter(rec => rec["@tab"] === "10040") // 人口推移のデータのみを取り出す
   .forEach(rec => {
       const year = Number(rec['@time'].slice(0, 4));
       const code = rec['@area']; // 都道府県コード
