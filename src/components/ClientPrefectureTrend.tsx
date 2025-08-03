@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import PrefectureCheckboxes from "@/components/PrefectureCheckboxes";
-import LineGraph from "@/app/LineGraph";
+import LineGraph from "@/components/LineGraph";
 import { Prefecture, TrendChartData } from "@/lib/GetStatsData";
 
 type Props = {
