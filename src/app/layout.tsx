@@ -13,7 +13,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="jp">
-      <body>{children}</body>
+      <body>
+        <header className="bg-blue-200 shadow-md px-4 py-2">
+          <h2 className="font-bold">人口推移グラフ</h2>
+        </header>
+        {children}
+      </body>
     </html>
   );
 }
